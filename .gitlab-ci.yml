@@ -1,0 +1,15 @@
+stages:
+  - test
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+test:
+  stage: test
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - docker build -t scarnyte/docker-react -f Dockerfile.dev .
+  script:
+    - docker run scarnyte/docker-react npm run test -- --coverage
